@@ -60,7 +60,26 @@ namespace Fobserver
         }
         private void updfd()
         {
-            fcontent.Text = File.ReadAllText(nowpath);
+        }
+        async Task r()
+        {
+            await Task.Delay(50);
+
+            try
+            {
+                using (FileStream fs = new FileStream(nowpath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (StreamReader r = new StreamReader(fs))
+                    {
+                        fcontent.Text = r.ReadToEnd();
+                    }
+                }
+            }
+            catch
+            {
+                log("読み取りに失敗。");
+                r();
+            }
         }
 
         private void clslog(object sender, EventArgs e)

@@ -183,6 +183,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.observepath);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(816, 489);
+            this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.fsw)).EndInit();
