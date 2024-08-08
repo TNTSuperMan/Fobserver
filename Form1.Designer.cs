@@ -52,6 +52,8 @@
             this.fsw.Path = "C:\\Users\\broke\\霊夢立ち絵（作ふにちか）zip版";
             this.fsw.SynchronizingObject = this;
             this.fsw.Changed += new System.IO.FileSystemEventHandler(this.detect);
+            this.fsw.Created += new System.IO.FileSystemEventHandler(this.create);
+            this.fsw.Deleted += new System.IO.FileSystemEventHandler(this.delete);
             // 
             // label1
             // 

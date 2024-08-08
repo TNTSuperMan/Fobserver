@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -52,7 +53,7 @@ namespace Fobserver
             nowpath = Path.GetFullPath(observepath.Text);
             fsw.Path = Path.GetDirectoryName(nowpath);
             updfd();
-            log("監視ファイルを変更されました");
+            log("監視するファイルを変更されました");
         }
         private void log(string message)
         {
@@ -60,31 +61,35 @@ namespace Fobserver
         }
         private void updfd()
         {
-        }
-        async Task r()
-        {
-            await Task.Delay(50);
-
+            Thread.Sleep(100);
             try
             {
-                using (FileStream fs = new FileStream(nowpath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (StreamReader r = new StreamReader(fsw.Path))
                 {
-                    using (StreamReader r = new StreamReader(fs))
-                    {
-                        fcontent.Text = r.ReadToEnd();
-                    }
+                    fcontent.Text = r.ReadToEnd();
                 }
             }
-            catch
+            catch(Exception e)
             {
-                log("読み取りに失敗。");
-                r();
+                MessageBox.Show(e.Message);
             }
         }
 
         private void clslog(object sender, EventArgs e)
         {
             fcontent.Text = string.Empty;
+        }
+
+        private void delete(object sender, FileSystemEventArgs e)
+        {
+            log("監視ファイルが削除されました");
+            fcontent.Text = "";
+        }
+
+        private void create(object sender, FileSystemEventArgs e)
+        {
+            log("監視ファイルが作られました");
+            updfd();
         }
     }
 }
